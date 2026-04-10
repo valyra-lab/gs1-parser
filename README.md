@@ -22,7 +22,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("fr.valyra:gs1-parser:1.0.0")
+                implementation("fr.valyra:gs1-parser:1.0.1")
             }
         }
     }
