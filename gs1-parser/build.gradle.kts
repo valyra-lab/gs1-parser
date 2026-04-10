@@ -17,6 +17,13 @@ val generateGs1Catalog by tasks.registering(GenerateGs1CatalogTask::class) {
 
 kotlin {
     jvm()
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+    macosX64()
+    macosArm64()
+
+    applyDefaultHierarchyTemplate()
 
     explicitApi()
 
@@ -35,7 +42,7 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile<*>>().configureEach {
     dependsOn(generateGs1Catalog)
 }
 
