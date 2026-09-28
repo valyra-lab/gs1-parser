@@ -7,7 +7,7 @@ plugins {
     signing
 }
 
-val generateGs1Catalog by tasks.registering(GenerateGs1CatalogTask::class) {
+val generateGs1Catalog = tasks.register<GenerateGs1CatalogTask>("generateGs1Catalog") {
     group = "code generation"
     description = "Generate GS1 catalog from official JSON-LD"
     datasetUrl.set("https://ref.gs1.org/ai/GS1_Application_Identifiers.jsonld")
@@ -28,17 +28,15 @@ kotlin {
     explicitApi()
 
     sourceSets {
-        val commonMain by getting {
+        getByName("commonMain") {
             kotlin.srcDir(generateGs1Catalog.flatMap { it.outputDir })
         }
 
-        val commonTest by getting {
+        getByName("commonTest") {
             dependencies {
                 implementation(libs.kotlin.test)
             }
         }
-
-        val jvmMain by getting
     }
 }
 
