@@ -184,19 +184,19 @@ public class Gs1Parser private constructor(private val specs: Map<String, AiSpec
 
     private fun validateCheckDigits(field: Gs1Field, errors: MutableList<Gs1Error>) {
         var cursor = 0
-        for (component in field.spec.components) {
-            if (!component.fixedLength) continue
-            if (cursor + component.length > field.value.length) break
+        for ((_, _, fixedLength, length, checkDigit) in field.spec.components) {
+            if (!fixedLength) continue
+            if (cursor + length > field.value.length) break
             val chunk = field.value.substring(
                 cursor,
-                cursor + component.length
+                cursor + length
             )
-            if (component.checkDigit && chunk.isNumeric() && !hasValidGs1CheckDigit(chunk)) errors += Gs1Error(
+            if (checkDigit && chunk.isNumeric() && !hasValidGs1CheckDigit(chunk)) errors += Gs1Error(
                 "CHECK_DIGIT",
                 "Invalid check digit for AI ${field.ai}",
                 field.startIndex
             )
-            cursor += component.length
+            cursor += length
         }
     }
 
